@@ -1,0 +1,58 @@
+#!/bin/bash -ex
+
+# USAGE: cf-bootstrap
+
+BASE_URL="https://$GITHUB_ACCESS_TOKEN:@github.com/justinforce"
+LOCAL_PATH="$HOME/.local/bin"
+DROPBOX="$HOME/Dropbox"
+DOCUMENTS="$DROPBOX/Documents"
+NOTEBOOKS="$DOCUMENTS/Zim Notebooks"
+DEP_DIRS=("$DROPBOX" "$DOCUMENTS" "$NOTEBOOKS")
+CF_HOSTNAME=${CF_HOSTNAME:-$(hostname)}
+
+REPOS=(cfg cfl cfs cfz)
+
+declare -A NAME
+NAME[cfg]='cfg'
+NAME[cfl]="cfl-$CF_HOSTNAME"
+NAME[cfs]="cfs-$CF_HOSTNAME"
+NAME[cfz]='zim-notebooks'
+
+declare -A REPO
+REPO[cfg]="$BASE_URL/${NAME[cfg]}.git"
+REPO[cfl]="$BASE_URL/${NAME[cfl]}.git"
+REPO[cfs]="$BASE_URL/${NAME[cfs]}.git"
+REPO[cfz]="$BASE_URL/${NAME[cfz]}.git"
+
+declare -A GIT
+GIT[cfg]="$HOME/src/${NAME[cfg]}.git"
+GIT[cfl]="$HOME/src/${NAME[cfl]}.git"
+GIT[cfs]="$HOME/src/${NAME[cfs]}.git"
+GIT[cfz]="$HOME/src/${NAME[cfz]}.git"
+
+declare -A TREE
+TREE[cfg]="$HOME"
+TREE[cfl]="$HOME"
+TREE[cfs]='/'
+TREE[cfz]="$NOTEBOOKS"
+
+cd "$HOME"
+mkdir -pv "${DEP_DIRS[@]}"
+
+init_repo() {
+  local repo="$1"; shift
+  test -d "${GIT[$repo]}" || (
+    if git clone --recursive --bare "${REPO[$repo]}" "${GIT[$repo]}"; then
+      git --git-dir="${GIT[$repo]}" --work-tree="${TREE[$repo]}" checkout master -- :/
+      git --git-dir="${GIT[$repo]}" --work-tree="${TREE[$repo]}" checkout master
+    fi
+  )
+}
+
+export PATH=$LOCAL_PATH:$PATH
+
+for repo in "${REPOS[@]}"; do
+  init_repo "$repo"
+done
+
+cfup

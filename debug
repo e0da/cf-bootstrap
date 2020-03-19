@@ -1,0 +1,5 @@
+#!/bin/bash -ex
+
+IMAGE=cf-bootstrap_cf-test:latest
+
+docker run -it $IMAGE bash

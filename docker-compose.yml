@@ -1,0 +1,12 @@
+version: "3"
+services:
+  cf-test:
+    hostname: enzo
+    build:
+      context: .
+      args:
+        - GITHUB_ACCESS_TOKEN=${GITHUB_ACCESS_TOKEN}
+        - CF_HOSTNAME=${CF_HOSTNAME}
+    environment:
+      - GITHUB_ACCESS_TOKEN
+      - CF_HOSTNAME

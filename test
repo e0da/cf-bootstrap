@@ -1,0 +1,12 @@
+#!/bin/bash -ex
+
+PASS=0
+FAIL=1
+
+if ./build; then
+  echo 'Test passed'
+  exit $PASS
+else
+  echo 'TEST FAILED'
+  exit $FAIL
+fi
