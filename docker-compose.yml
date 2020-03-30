@@ -1,7 +1,6 @@
 version: "3"
 services:
   cf-test:
-    hostname: enzo
     build:
       context: .
       args:
