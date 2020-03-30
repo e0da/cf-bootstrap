@@ -11,12 +11,8 @@ ENV CF_HOSTNAME $CF_HOSTNAME
 # Work in home dir
 WORKDIR /root
 
-# Obtain bootstrap script
+# Obtain bootstrap script and run it twice to make sure it's safe to run again
 ENV script cf-bootstrap
-ENV hostbin ./$script
-ENV bin ./$script
-COPY $hostbin $bin
-
-# Run bootstrap script (twice to make sure it's safe to run again)
-RUN bash $bin
-RUN bash $bin
+COPY $script $script
+RUN bash $script
+RUN bash $script
