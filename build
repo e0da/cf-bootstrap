@@ -2,5 +2,5 @@
 
 source ./common.bash
 
-docker image rm --force --no-prune "$IMAGE" || true
-docker-compose up --build
+docker image rm --force "$IMAGE" || true
+docker-compose up --build --renew-anon-volumes
