@@ -16,8 +16,7 @@ ENV script cf-bootstrap
 ENV hostbin ./$script
 ENV bin ./$script
 COPY $hostbin $bin
-RUN chmod +x $bin
 
 # Run bootstrap script (twice to make sure it's safe to run again)
-RUN $bin
-RUN $bin
+RUN bash $bin
+RUN bash $bin
