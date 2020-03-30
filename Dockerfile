@@ -1,6 +1,6 @@
 FROM ubuntu
 
-RUN apt-get -qq update && apt-get -qq install -y git
+RUN apt-get -qq update && apt-get -qq install -y sudo
 
 # Environment variables
 ARG GITHUB_ACCESS_TOKEN

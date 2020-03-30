@@ -2,6 +2,9 @@
 
 # USAGE: cf-bootstrap
 
+TRUE=0
+FALSE=-1
+
 BASE_URL="https://$GITHUB_ACCESS_TOKEN:@github.com/justinforce"
 LOCAL_PATH="$HOME/.local/bin"
 DROPBOX="$HOME/Dropbox"
@@ -39,9 +42,25 @@ TREE[cfz]="$NOTEBOOKS"
 cd "$HOME"
 mkdir -pv "${DEP_DIRS[@]}"
 
-init_repo() {
+apt_updated=$FALSE
+require-apt-get() {
+  if [ $apt_updated == $FALSE ]; then
+    sudo apt-get -qq update
+    apt_updated=$TRUE
+  fi
+}
+
+require-git() {
+  if ! command -v git; then
+    require-apt-get
+    sudo apt-get -qq install -y git
+  fi
+}
+
+init-repo() {
   local repo="$1"; shift
   test -d "${GIT[$repo]}" || (
+    require-git
     if git clone --recursive --bare "${REPO[$repo]}" "${GIT[$repo]}"; then
       git --git-dir="${GIT[$repo]}" --work-tree="${TREE[$repo]}" checkout master -- :/
       git --git-dir="${GIT[$repo]}" --work-tree="${TREE[$repo]}" checkout master
@@ -52,7 +71,7 @@ init_repo() {
 export PATH=$LOCAL_PATH:$PATH
 
 for repo in "${REPOS[@]}"; do
-  init_repo "$repo"
+  init-repo "$repo"
 done
 
 cfup
