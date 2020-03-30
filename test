@@ -3,7 +3,7 @@
 PASS=0
 FAIL=1
 
-if ./build; then
+if docker-compose build --no-cache && docker-compose up; then
   echo 'Test passed'
   exit $PASS
 else

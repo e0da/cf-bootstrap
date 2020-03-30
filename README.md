@@ -12,8 +12,12 @@ wget -O- $URL | GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN bash
 Alternately copy `example.env` to `.env` and update it if your environment
 supports .env.
 
-## Testing
+## Testing and Debugging
 
 ```sh
+# To test
 ./test
+
+# To debug
+./debug
 ```

@@ -1,6 +1,0 @@
-#!/bin/bash -ex
-
-source ./common.bash
-
-docker image rm --force "$IMAGE" || true
-docker-compose up --build --renew-anon-volumes
