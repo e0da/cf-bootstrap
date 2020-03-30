@@ -39,9 +39,6 @@ TREE[cfl]="$HOME"
 TREE[cfs]='/'
 TREE[cfz]="$NOTEBOOKS"
 
-cd "$HOME"
-mkdir -pv "${DEP_DIRS[@]}"
-
 apt_updated=$FALSE
 require-apt-get() {
   if [ $apt_updated == $FALSE ]; then
@@ -69,6 +66,9 @@ init-repo() {
 }
 
 export PATH=$LOCAL_PATH:$PATH
+
+cd "$HOME"
+mkdir -pv "${DEP_DIRS[@]}"
 
 for repo in "${REPOS[@]}"; do
   init-repo "$repo"
