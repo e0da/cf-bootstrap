@@ -65,7 +65,7 @@ init-repo() {
   )
 }
 
-export PATH=$LOCAL_PATH:$PATH
+PATH=$LOCAL_PATH:$PATH
 
 cd "$HOME"
 mkdir -pv "${DEP_DIRS[@]}"
